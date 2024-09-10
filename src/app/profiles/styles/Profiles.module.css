@@ -1,0 +1,36 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  
+  .pagination {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination > ul   {
+    display: flex;
+    align-items: center;
+    gap:2rem
+  }
+
+  .pagination > ul > span   {
+    display: none;
+  }
+
+  .pagination > ul > span > svg{
+    transform: rotate(90);
+  }
+  
+  .pagination .nextui-pagination .nextui-pagination-item {
+    margin: 0 5px;
+  }
+  
