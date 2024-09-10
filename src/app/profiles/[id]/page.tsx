@@ -1,12 +1,6 @@
 import React from 'react';
 import { fetchUserById } from '../../../services/userService'; 
 
-interface User {
-  name: { first: string; last: string };
-  email: string;
-  dob: { age: number };
-  location: { city: string; country: string };
-}
 
 const UserProfile = async ({ params }: { params: { id: string } }) => {
   const { id } = params;

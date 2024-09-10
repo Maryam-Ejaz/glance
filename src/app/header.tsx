@@ -50,7 +50,7 @@ const Logo = styled(Link)`
 
 const Header = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const [isScrolled, setIsScrolled] = useState(false);
+
 
   useEffect(() => {
     const element = ref.current;
@@ -76,7 +76,7 @@ const Header = () => {
           element.style.padding = "1rem 5rem";
           element.style.color = "var(--white)";
         }
-        setIsScrolled(self.progress > 0.1);
+
       },
     });
 

@@ -1,4 +1,3 @@
-import Main from "./profiles/page";
 import Profiles from "./profiles/page";
 // import Profiles from "./profiles/page";
 
