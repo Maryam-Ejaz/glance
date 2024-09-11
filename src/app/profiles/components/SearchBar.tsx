@@ -14,7 +14,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     event.preventDefault();
     if (active) {
       // If already active, remove the 'active' class and clear the input
-      setActive(false);
+      setActive(!active);
       // Clear input
       const searchInput = document.querySelector<HTMLInputElement>(`.${styles.searchInput}`);
       if (searchInput) {
