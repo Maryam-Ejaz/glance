@@ -43,30 +43,30 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
     if (error) return <p>{error}</p>;
 
     const tabContents = [
-        <div>
+        <div key="personal-info">
             <div><p className={styles.label}>Name: </p><p className={styles.value}>{user?.name?.title} {user?.name?.first} {user?.name?.last}</p></div>
             <div><p className={styles.label}>Title: </p><p className={styles.value}>{user?.name?.title}</p></div>
             <div><p className={styles.label}>Gender: </p><p className={styles.value}>{user?.gender}</p></div>
             <div><p className={styles.label}>Nationality: </p><p className={styles.value}>{user?.nat}</p></div>
             <div><p className={styles.label}>SSN: </p><p className={styles.value}>{user?.id?.value}</p></div>
         </div>,
-        <div>
+        <div key="email-info">
             <div><p className={styles.label}>Email: </p><p className={styles.value}>{user?.email}</p></div>
         </div>,
-        <div>
+        <div key="phone-info">
             <div><p className={styles.label}>Phone: </p><p className={styles.value}>{user?.phone}</p></div>
             <div><p className={styles.label}>Cell: </p><p className={styles.value}>{user?.cell}</p></div>
         </div>,
-        <div>
-        <div><p className={styles.label}>Location: </p><p className={styles.value}>{user?.location?.street.number} {user?.location?.street.name}, {user?.location?.city}, {user?.location?.state}, {user?.location?.country} {user?.location?.postcode}</p></div>
-        <div><p className={styles.label}>Coordinates: </p><p className={styles.value}>{user?.location?.coordinates.latitude}, {user?.location?.coordinates.longitude}</p></div>
-        <div><p className={styles.label}>Timezone: </p><p className={styles.value}>{user?.location?.timezone?.description}</p></div>
-    </div>,
-        <div>
+        <div key="location-info">
+            <div><p className={styles.label}>Location: </p><p className={styles.value}>{user?.location?.street.number} {user?.location?.street.name}, {user?.location?.city}, {user?.location?.state}, {user?.location?.country} {user?.location?.postcode}</p></div>
+            <div><p className={styles.label}>Coordinates: </p><p className={styles.value}>{user?.location?.coordinates.latitude}, {user?.location?.coordinates.longitude}</p></div>
+            <div><p className={styles.label}>Timezone: </p><p className={styles.value}>{user?.location?.timezone?.description}</p></div>
+        </div>,
+        <div key="dob-info">
             <div><p className={styles.label}>Date of Birth: </p><p className={styles.value}>{new Date(user?.dob?.date).toLocaleDateString()}</p></div>
             <div><p className={styles.label}>Age: </p><p className={styles.value}>{user?.dob?.age}</p></div>
         </div>,
-        <div>
+        <div key="registration-info">
             <div><p className={styles.label}>Registered: </p><p className={styles.value}>{new Date(user?.registered?.date).toLocaleDateString()}</p></div>
             <div><p className={styles.label}>Years Registered: </p><p className={styles.value}>{new Date().getFullYear() - new Date(user?.registered?.date).getFullYear()}</p></div>
         </div>
