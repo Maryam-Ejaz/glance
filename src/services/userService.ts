@@ -1,34 +1,40 @@
-const API_URL = "https://randomuser.me/api/?results=1000";
+const API_URL = "https://randomuser.me/api/?results=1000&seed=abc";
+let allUsersCache: any[] = []; // Cache to store fetched users
 
 export const fetchUsers = async (): Promise<any[]> => {
-  try {
-    const response = await fetch(API_URL);
-    if (!response.ok) {
-      throw new Error("Failed to fetch user data");
+  if (allUsersCache.length === 0) {
+    try {
+      const response = await fetch(API_URL);
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+      const data = await response.json();
+      allUsersCache = data.results; // Cache all user results
+      return allUsersCache;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      throw error;
     }
-    const data = await response.json();
-    return data.results; // Return all user results
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    throw error;
+  } else {
+    return allUsersCache; // Return cached data if already fetched
   }
 };
-
 
 export const fetchUserById = async (id: string) => {
   try {
-    const response = await fetch(`https://randomuser.me/api?uuid=${id}`); 
+    // Ensure users are fetched
+    const users = await fetchUsers();
+
+    // Search for the user by UUID
+    const user = users.find((user) => user.login.uuid === id);
     
-    if (!response.ok) {
-      throw new Error("Failed to fetch user data");
+    if (user) {
+      return user;
+    } else {
+      throw new Error("User not found");
     }
-    const data = await response.json();
-    console.log(data.results);
-    return data.results; 
   } catch (error) {
-    console.error("Error fetching user data:", error);
+    console.error("Error fetching user by ID:", error);
     throw error;
   }
 };
-
-                                                      

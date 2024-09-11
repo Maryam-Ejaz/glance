@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../styles/ProfileCard.module.css';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface ProfileCardProps {
   user: {
@@ -49,6 +50,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 
   return (
     <div onClick={handleClick} className={styles.card}>
+      {/* <Link href={`/${user.login.uuid}`}> */}
       <div className={styles.cardCover} style={{ backgroundImage: `url(${user.picture.large})` }}></div>
       <div className={styles.cardContent}>
         <img
@@ -68,6 +70,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
         <p className={styles.info}>{user.dob.age} years old</p>
         <p className={styles.info}>{user.phone}</p>
       </div>
+      {/* </Link> */}
     </div>
   );
 };

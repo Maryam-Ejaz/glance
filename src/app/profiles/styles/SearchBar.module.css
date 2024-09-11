@@ -1,0 +1,152 @@
+/* SearchBar.module.css */
+.searchWrapper {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+
+.searchWrapper.active {}
+
+.inputHolder {    
+    height: 55px;
+    width: 50px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0);
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+.searchWrapper.active .inputHolder {
+    width: 50vw;
+    border-radius: 50px;
+    background: rgba(41, 41, 41, 0.5);
+    transition: all .5s cubic-bezier(0.000, 0.105, 0.035, 1.570);
+}
+
+.searchInput {
+    width: 100%;
+    height: 40px;
+    padding: 0px 70px 0 20px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    font-family: "Open Sans", Arial, Verdana;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #FFF;
+    transform: translate(0, 60px);
+    transition: all .3s cubic-bezier(0.000, 0.105, 0.035, 1.570);
+    transition-delay: 0.3s;
+}
+
+.searchWrapper.active .searchInput {
+    opacity: 1;
+    transform: translate(0, 10px);
+}
+
+.searchIcon {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 6px;
+    background: #2e2d2d;
+    padding: 0px;
+    outline: none;
+    position: relative;
+    z-index: 2;
+    float: right;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.searchWrapper.active .searchIcon {
+    width: 35px;
+    height: 35px;
+    margin: 10px;
+    border-radius: 30px;
+}
+
+.searchIcon span {
+    width: 16px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    transform: rotate(45deg);
+    transition: all .4s cubic-bezier(0.650, -0.600, 0.240, 1.650);
+}
+
+.searchWrapper.active .searchIcon span {
+    transform: rotate(-45deg);
+}
+
+.searchIcon span::before, .searchIcon span::after {
+    position: absolute; 
+    content: '';
+}
+
+.searchIcon span::before {
+    width: 4px;
+    height: 11px;
+    left: 6px;
+    top: 13px;
+    border-radius: 2px;
+    background:  #e2e1e3;
+}
+
+.searchIcon span::after {
+    width: 15px;
+    height: 15px;
+    left: 0;
+    top: 0;
+    border-radius: 16px;
+    border: 4px solid  #e2e1e3;
+}
+/* 
+.close {
+    position: absolute;
+    z-index: 1;
+    top: 6px;
+    right: 6px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transform: rotate(-180deg);
+    transition: all .3s cubic-bezier(0.285, -0.450, 0.935, 0.110);
+    transition-delay: 0.2s;
+} */
+
+.searchWrapper.active .close {
+    right: -50px;
+    transform: rotate(45deg);
+    transition: all .6s cubic-bezier(0.000, 0.105, 0.035, 1.570);
+    transition-delay: 0.5s;
+}
+
+/* .close::before, .close::after {
+    position: absolute;
+    content: '';
+    background:  #9c47fc;
+    border-radius: 2px;
+} */
+
+/* .close::before {
+    width: 5px;
+    height: 25px;
+    left: 10px;
+    top: 0;
+}
+
+.close::after {
+    width: 25px;
+    height: 5px;
+    left: 0;
+    top: 10px;
+} */

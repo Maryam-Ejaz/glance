@@ -16,7 +16,7 @@ const Headers = styled.header`
   color: var(--white);
   position: fixed;
   top: 1rem;
-  left: 0;
+  left: 3rem;
   right: 0;
   z-index: 1000;
   transition: background 0.5s ease, padding 0.5s ease, backdrop-filter 0.5s ease, color 0.5s ease;

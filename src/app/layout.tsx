@@ -3,7 +3,9 @@ import {Jost} from "next/font/google";
 import "./globals.css";
 import Header from "./header";
 
-const jost = Jost({ subsets: ['latin'] })
+const jost = Jost({ 
+  weight: ['300','500'],
+  subsets: ['latin'] })
 
 
 export const metadata: Metadata = {
@@ -19,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jost.style.fontFamily} antialiased`}
+        className={`${jost.className}`}
       >
         <Header/>
         {children}
