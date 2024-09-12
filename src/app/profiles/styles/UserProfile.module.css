@@ -33,7 +33,7 @@
 .flagIcon {
     position: absolute;
     font-size: 40px;
-    bottom: -155px; 
+    bottom: 4px; 
     left: 70%;
     width: fit-content;
     border-radius: 50%; 
