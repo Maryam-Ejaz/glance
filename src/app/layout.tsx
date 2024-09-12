@@ -23,7 +23,7 @@ export default function RootLayout({
       <body
         className={`${jost.className}`}
       >
-        <Header/>
+        {/* <Header/> */}
         {children}
       </body>
     </html>

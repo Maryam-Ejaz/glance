@@ -6,7 +6,7 @@ import DemoTable from "./profiles/components/DemoTable";
 import Header from "./header";
 
 export default function Home() {
-  const [showDemoTable, setShowDemoTable] = useState(true);
+  const [showDemoTable, setShowDemoTable] = useState(false);
 
   const handleToggle = () => {
     setShowDemoTable(prev => !prev);
