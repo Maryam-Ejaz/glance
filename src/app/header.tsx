@@ -37,7 +37,7 @@ const Logo = styled(Link)`
   height: auto;
   cursor: pointer;
   z-index: 1000;
-
+  padding-left: 3rem;
   img {
     width: 4rem;
     height: auto;
@@ -46,7 +46,7 @@ const Logo = styled(Link)`
   }
   h3 {
     color: inherit; 
-    margin-right: 0px;
+    margin-right: 10px;
     font-weight: 700;
   }
 `;
@@ -125,7 +125,7 @@ const Header = ({ onToggle }: { onToggle: () => void }) => {
       gsap.to(element, {
         position: "fixed",
         top: "1rem",
-        left: "0rem",
+        left: "3rem",
         right: "3rem",
         padding: "0.5rem 2rem",
         borderRadius: "50px",
