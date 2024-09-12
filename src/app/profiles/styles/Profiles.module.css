@@ -9,34 +9,43 @@
     padding: 20px;
   }
   
+  .actions{
+    display: flex;
+    gap: 5px;
+    padding-left: 10px;
+    align-items: center;
+  }
   
   .pagination {
     margin: 20px 0;
     display: flex;
     justify-content: center;
-  }
-  
-  .pagination > ul   {
-    display: flex;
-    align-items: center;
-    gap:2rem
-  }
-
-  .pagination > ul > span   {
-    display: none;
-  }
-
-  .pagination > ul > span > svg{
-    transform: rotate(90);
-  }
-  
-  .pagination .nextui-pagination .nextui-pagination-item {
-    margin: 0 5px;
+    color: antiquewhite;
   }
   
   .searchBar {
-    position: absolute;
-    top: 20px;
-    right: 20px;
     z-index: 10;
   }
+
+  .refreshButton {
+    background-color: #2e2d2d;
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    font-weight: bolder;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    color: #d4d4d8;
+  }
+  
+  .refreshButton:hover {
+    background-color: #1f1f1f;
+    color: #d4d4d8;
+  }
+
+  .icon{
+    -webkit-text-stroke: 2px white;
+  }
+  

@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from '../styles/ProfileCard.module.css';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 interface ProfileCardProps {
   user: {

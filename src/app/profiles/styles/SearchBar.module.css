@@ -1,24 +1,24 @@
 /* SearchBar.module.css */
-.searchWrapper {
+/* .searchWrapper {
     position: absolute;
-    top: 5%;
+    top: 7%;
     right: 5%;
-}
+} */
 
 .searchWrapper.active {}
 
 .inputHolder {    
-    height: 55px;
+    height: 40px;
     width: 50px;
     overflow: hidden;
     background: rgba(255, 255, 255, 0);
-    border-radius: 6px;
+    border-radius: 10px;
     position: relative;
     transition: all 0.3s ease-in-out;
 }
 
 .searchWrapper.active .inputHolder {
-    width: 50vw;
+    width: 30vw;
     border-radius: 50px;
     background: rgba(41, 41, 41, 0.5);
     transition: all .5s cubic-bezier(0.000, 0.105, 0.035, 1.570);
@@ -26,7 +26,7 @@
 
 .searchInput {
     width: 100%;
-    height: 40px;
+    height: 20px;
     padding: 0px 70px 0 20px;
     opacity: 0;
     position: absolute;
@@ -40,10 +40,11 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 20px;
-    color: #FFF;
+    color: #d4d4d8;
     transform: translate(0, 60px);
     transition: all .3s cubic-bezier(0.000, 0.105, 0.035, 1.570);
     transition-delay: 0.3s;
+    
 }
 
 .searchWrapper.active .searchInput {
@@ -51,9 +52,10 @@
     transform: translate(0, 10px);
 }
 
+
 .searchIcon {
-    width: 35px;
-    height: 35px;
+    width: 39px;
+    height: 39px;
     border: none;
     border-radius: 6px;
     background: #2e2d2d;
@@ -66,10 +68,15 @@
     transition: all 0.3s ease-in-out;
 }
 
+.searchIcon:hover {
+    background-color: #1f1f1f;
+    color: #d4d4d8;
+  }
+
 .searchWrapper.active .searchIcon {
-    width: 35px;
-    height: 35px;
-    margin: 10px;
+    width: 33px;
+    height: 32px;
+    margin: 4px;
     border-radius: 30px;
 }
 
@@ -97,7 +104,7 @@
     height: 11px;
     left: 6px;
     top: 13px;
-    border-radius: 2px;
+    border-radius: 10px;
     background:  #e2e1e3;
 }
 
@@ -150,3 +157,14 @@
     left: 0;
     top: 10px;
 } */
+
+@media (max-width: 768px) {
+    .searchWrapper {
+        top: 8vh;
+    right: 13vw;
+    }
+
+    .searchWrapper.active .inputHolder {
+        width: 50vw;
+    }
+}

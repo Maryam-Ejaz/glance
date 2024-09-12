@@ -1,9 +1,12 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { fetchUserById } from '../../../services/userService';
 import styles from '../styles/UserProfile.module.css';
 import TabMenu from '../components/TabMenu';
+import { MapProvider } from '../providers/MapProvider';
+import { MapComponent } from '../components/Map';
+import "/node_modules/flag-icons/css/flag-icons.min.css"; // Import the flag icons CSS
 
 interface UserProfileProps {
     params: { id: string };
@@ -42,6 +45,9 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
+    // Extract ISO country code from user's nationality (if available)
+    const countryCode = user?.nat?.toLowerCase(); // Lowercase the nationality code for the flag icon
+
     const tabContents = [
         <div key="personal-info">
             <div><p className={styles.label}>Name: </p><p className={styles.value}>{user?.name?.title} {user?.name?.first} {user?.name?.last}</p></div>
@@ -61,6 +67,13 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
             <div><p className={styles.label}>Location: </p><p className={styles.value}>{user?.location?.street.number} {user?.location?.street.name}, {user?.location?.city}, {user?.location?.state}, {user?.location?.country} {user?.location?.postcode}</p></div>
             <div><p className={styles.label}>Coordinates: </p><p className={styles.value}>{user?.location?.coordinates.latitude}, {user?.location?.coordinates.longitude}</p></div>
             <div><p className={styles.label}>Timezone: </p><p className={styles.value}>{user?.location?.timezone?.description}</p></div>
+            {/* Map */}
+            <MapProvider>
+                <MapComponent center={{
+                    lat: parseFloat(user?.location?.coordinates.latitude),
+                    lng: parseFloat(user?.location?.coordinates.longitude)
+                }} />
+            </MapProvider>
         </div>,
         <div key="dob-info">
             <div><p className={styles.label}>Date of Birth: </p><p className={styles.value}>{new Date(user?.dob?.date).toLocaleDateString()}</p></div>
@@ -78,11 +91,19 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
                 {user ? (
                     <>
                         {user.picture?.large ? (
-                            <img
-                                src={user.picture.large}
-                                alt={`${user.name?.first} ${user.name?.last}`}
-                                className={styles.profileImage}
-                            />
+                            <div className={styles.profileContainer}>
+                                {/* Display the flag above the profile picture */}
+                                {countryCode && (
+                                    <span
+                                        className={`fi fis fi-${countryCode} flag-icon-squared ${styles.flagIcon}`}
+                                    ></span>
+                                )}
+                                <img
+                                    src={user.picture.large}
+                                    alt={`${user.name?.first} ${user.name?.last}`}
+                                    className={styles.profileImage}
+                                />
+                            </div>
                         ) : (
                             <p>No profile picture available</p>
                         )}
@@ -90,7 +111,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
                             <h2>{`${user.name?.title} ${user.name?.first} ${user.name?.last}`}</h2>
                             <TabMenu activeTab={activeTab} onTabChange={handleTabChange} />
                         </div>
-                        
+
                         <div className={styles.textContainer}>
                             {tabContents[activeTab]}
                         </div>

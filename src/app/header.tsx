@@ -1,11 +1,12 @@
-// app/components/Header.tsx
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styled from "styled-components";
 import Link from "next/link";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTable, faList, faListDots, faListSquares } from '@fortawesome/free-solid-svg-icons';
 
 const Headers = styled.header`
   display: flex;
@@ -13,10 +14,11 @@ const Headers = styled.header`
   align-items: center;
   padding: 1rem 5rem;
   background: transparent;
+  border-radius: 50px;
   color: var(--white);
   position: fixed;
   top: 1rem;
-  left: 3rem;
+  left: 0;
   right: 0;
   z-index: 1000;
   transition: background 0.5s ease, padding 0.5s ease, backdrop-filter 0.5s ease, color 0.5s ease;
@@ -35,6 +37,7 @@ const Logo = styled(Link)`
   height: auto;
   cursor: pointer;
   z-index: 1000;
+
   img {
     width: 4rem;
     height: auto;
@@ -42,15 +45,33 @@ const Logo = styled(Link)`
     border-radius: 50%;
   }
   h3 {
-    color: inherit; /* Make text color inherit */
-    margin: 0;
-    font-weight: 500px;
+    color: inherit; 
+    margin-right: 0px;
+    font-weight: 700;
   }
 `;
 
-const Header = () => {
-  const ref = useRef<HTMLDivElement>(null);
+const ToggleButton = styled.button`
+  background: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 10px; // Align button to the right
 
+  &:focus {
+    outline: none;
+  }
+`;
+
+const Header = ({ onToggle }: { onToggle: () => void }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isTableView, setIsTableView] = useState(true); // Default to table view
+
+  const handleToggle = () => {
+    setIsTableView(!isTableView);
+    onToggle();
+  };
 
   useEffect(() => {
     const element = ref.current;
@@ -90,7 +111,7 @@ const Header = () => {
         left: "0",
         right: "0",
         padding: "0.5rem 2.5rem",
-        borderRadius: "0 0 50px 50px",
+        borderRadius: "50px",
         duration: 1,
         ease: "power1.out",
         scrollTrigger: {
@@ -104,7 +125,7 @@ const Header = () => {
       gsap.to(element, {
         position: "fixed",
         top: "1rem",
-        left: "3rem",
+        left: "0rem",
         right: "3rem",
         padding: "0.5rem 2rem",
         borderRadius: "50px",
@@ -126,10 +147,13 @@ const Header = () => {
   }, []);
 
   return (
-    <Headers ref={ref} style={{ color: 'white'}}>
-      <Logo href="/" style={{ color: 'white'}}>
+    <Headers ref={ref} style={{ color: 'white' }}>
+      <Logo href="/" style={{ color: 'white' }}>
         <h3>GLANCE</h3>
       </Logo>
+      <ToggleButton onClick={handleToggle}>
+        <FontAwesomeIcon icon={isTableView ? faTable : faList} />
+      </ToggleButton>
     </Headers>
   );
 };
