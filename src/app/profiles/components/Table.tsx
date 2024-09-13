@@ -18,19 +18,20 @@ import {
   Pagination,
   Selection,
   ChipProps,
-  SortDescriptor
+  SortDescriptor,
+  image
 } from "@nextui-org/react";
-import { PlusIcon } from "../icons/PlusIcon";
+import { useRouter } from 'next/navigation';
 import { VerticalDotsIcon } from "../icons/VerticalDotsIcon";
 import { ChevronDownIcon } from "../icons/ChevronDownIcon";
 import { SearchIcon } from "../icons/SearchIcon";
-import {columns, users, statusOptions} from "./data";
+import {columns, users, statusOptions} from "./TableData";
 import {capitalize} from "../utils/utils";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+  male: "primary",
+  female: "secondary",
+  other: "success",
 };
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "country", "dob", "gender", "actions"];
@@ -83,38 +84,107 @@ export default function DemoTable() {
 
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
+  
 
+  // Load state from local storage
+  React.useEffect(() => {
+    const savedState = localStorage.getItem('demoTableState');
+    if (savedState) {
+      const state = JSON.parse(savedState);
+      console.log(state);
+      setFilterValue(state.filterValue || "");
+      setSelectedKeys(new Set(state.selectedKeys || []));
+      setVisibleColumns(new Set(state.visibleColumns || INITIAL_VISIBLE_COLUMNS));
+      setStatusFilter(state.statusFilter || "all");
+      setRowsPerPage(state.rowsPerPage || 5);
+      setSortDescriptor(state.sortDescriptor || { column: "name", direction: "ascending" });
+      setPage(state.page || 1);
+    }
+  }, []);
+
+  // Save state to local storage
+  React.useEffect(() => {
+    const state = {
+      filterValue,
+      selectedKeys: Array.from(selectedKeys),
+      visibleColumns: Array.from(visibleColumns),
+      statusFilter,
+      rowsPerPage,
+      sortDescriptor,
+      page,
+    };
+    console.log(state);
+    localStorage.setItem('demoTableState', JSON.stringify(state));
+  }, [filterValue, selectedKeys, visibleColumns, statusFilter, rowsPerPage, sortDescriptor, page]);
+
+  const router = useRouter(); 
+
+  const handleClick = (uuid: string) => {
+    // Navigate to the user detail page with the user's UUID
+    router.push(`/profiles/${uuid}`);
+  };
+  
+
+  // Perform Sorting of Columns
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a: User, b: User) => {
-      const column = sortDescriptor.column as keyof User;
-      const first = a[column];
-      const second = b[column];
+      const column = sortDescriptor?.column ?? '';
   
-      // Debug output to check values being compared
-      console.log(`Sorting by column: ${column}`);
-      console.log(`Comparing ${first} and ${second}`);
+      // Get field values for both 'a' and 'b' based on the column
+      let first: any;
+      let second: any;
   
-      // Handle number types
-      if (typeof first === 'number' && typeof second === 'number') {
-        const cmp = first - second; 
-        return sortDescriptor.direction === "descending" ? -cmp : cmp;
+      switch (column) {
+        case "name":
+          // Extract the full name for comparison
+          first = `${a.name.first} ${a.name.last}`.toLowerCase();
+          second = `${b.name.first} ${b.name.last}`.toLowerCase();
+          break;
+        case "country":
+          // Compare based on the country name
+          first = a.location.country.toLowerCase();
+          second = b.location.country.toLowerCase();
+          break;
+        case "dob":
+          // Convert the date of birth to a timestamp for comparison
+          first = new Date(a.dob.date).getTime();
+          second = new Date(b.dob.date).getTime();
+          break;
+        case "gender":
+          // Compare based on gender
+          first = a.gender.toLowerCase();
+          second = b.gender.toLowerCase();
+          break;
+        default:
+          // For other fields, fallback to comparing directly from the field
+          first = a[column as keyof User];
+          second = b[column as keyof User];
+  
+          // Ensure comparison for strings is case-insensitive
+          if (typeof first === "string") first = first.toLowerCase();
+          if (typeof second === "string") second = second.toLowerCase();
+          break;
       }
   
-      // Handle string types
-      if (typeof first === 'string' && typeof second === 'string') {
-        const cmp = first.localeCompare(second);
-        return sortDescriptor.direction === "descending" ? -cmp : cmp;
+      // Perform the comparison
+      if (typeof first === "number" && typeof second === "number") {
+        // Numeric comparison
+        return sortDescriptor.direction === "descending" ? second - first : first - second;
+      } else if (typeof first === "string" && typeof second === "string") {
+        // String comparison
+        return sortDescriptor.direction === "descending"
+          ? second.localeCompare(first)
+          : first.localeCompare(second);
       }
   
-      // Handle other types (e.g., objects) - fallback
-      console.warn(`Unsupported type for sorting: ${typeof first}`);
-      return 0; 
+      // Default to no sorting if types do not match
+      return 0;
     });
   }, [sortDescriptor, items]);
   
-  
-
   const renderCell = React.useCallback((user: User, columnKey: React.Key): React.ReactNode => {
+
+    
     const cellValue = user[columnKey as keyof User];
   
     switch (columnKey) {
@@ -167,7 +237,7 @@ export default function DemoTable() {
         );
       case "gender":
         return (
-          <Chip className="capitalize" color={statusColorMap[user.gender]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[user.gender.toLowerCase()]} size="sm" variant="flat">
             {user.gender}
           </Chip>
         );
@@ -181,7 +251,7 @@ export default function DemoTable() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
+                <DropdownItem onClick={() => handleClick(user.login.uuid)}>View</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -228,7 +298,7 @@ export default function DemoTable() {
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mt-[30px]">
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -243,7 +313,7 @@ export default function DemoTable() {
             <Dropdown className="bg-color-[#2e2d2d]">
               <DropdownTrigger className="hidden sm:flex">
                 <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-                  Status
+                  Gender
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -289,12 +359,13 @@ export default function DemoTable() {
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className="outline-none text-default-400 text-small bg-color-[#171717]"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
+              <option value={users.length}>All</option>
             </select>
           </label>
         </div>
@@ -341,13 +412,13 @@ export default function DemoTable() {
 
   return (
     <Table
-    color="default"
+    color="secondary"
       aria-label="Table"
       isHeaderSticky
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "max-h-[382px]",
+        wrapper: "h-[60vh] bg-[#121212]",
       }}
       selectedKeys={selectedKeys}
       selectionMode="multiple"

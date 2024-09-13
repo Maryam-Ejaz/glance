@@ -6,7 +6,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/components/(dropdown|pagination|table|menu|divider|popover|button|ripple|spinner|checkbox|spacer).js"
+    "./node_modules/@nextui-org/theme/dist/components/(dropdown|input|pagination|table|user|menu|divider|popover|button|ripple|spinner|checkbox|spacer|avatar).js"
   ],
   theme: {
     extend: {

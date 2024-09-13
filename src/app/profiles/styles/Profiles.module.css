@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 16px;
-    padding: 16px;
+
   }
   
   .container {
@@ -12,7 +12,8 @@
   .actions{
     display: flex;
     gap: 5px;
-    padding-left: 10px;
+    padding-left: 8px;
+    padding-bottom: 10px;
     align-items: center;
   }
   

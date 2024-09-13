@@ -10,8 +10,6 @@ import SortDropdown from './components/SortDropDown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRefresh } from '@fortawesome/free-solid-svg-icons';
 
-import TableComponent from './components/TableComponent';
-
 
 const ITEMS_PER_PAGE = 24;
 
