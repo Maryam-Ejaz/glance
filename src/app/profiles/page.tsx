@@ -15,7 +15,6 @@ const ITEMS_PER_PAGE = 24;
 
 const Profiles: React.FC = React.memo(() => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const [users, setUsers] = useState<any[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
