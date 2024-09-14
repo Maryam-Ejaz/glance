@@ -25,7 +25,7 @@ import { useRouter } from 'next/navigation';
 import { VerticalDotsIcon } from "../icons/VerticalDotsIcon";
 import { ChevronDownIcon } from "../icons/ChevronDownIcon";
 import { SearchIcon } from "../icons/SearchIcon";
-import {columns, users, statusOptions} from "./TableData";
+import {columns, users, statusOptions} from "../data/TableData";
 import {capitalize} from "../utils/utils";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {

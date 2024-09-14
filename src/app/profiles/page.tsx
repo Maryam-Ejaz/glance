@@ -1,6 +1,6 @@
-"use client";
-
+"use client"
 import React, { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation'; 
 import { Pagination } from '@nextui-org/pagination';
 import { fetchUsers } from '../../services/userService';
 import ProfileCard from './components/ProfileCard';
@@ -9,59 +9,108 @@ import SearchBar from './components/SearchBar';
 import SortDropdown from './components/SortDropDown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRefresh } from '@fortawesome/free-solid-svg-icons';
-
+import Loading from './loading';
 
 const ITEMS_PER_PAGE = 24;
 
-const Profiles: React.FC = () => {
+const Profiles: React.FC = React.memo(() => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [users, setUsers] = useState<any[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>(''); 
-  const [sortOption, setSortOption] = useState<string>('');   
-
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortOption, setSortOption] = useState<string>('nameAsc');
   const [rowsPerPage, setRowsPerPage] = useState<number>(ITEMS_PER_PAGE);
 
-  // Fetch users on component mount
+  // Store and restore state using localStorage
+  useEffect(() => {
+    const savedPage = localStorage.getItem('currentPage');
+    const savedQuery = localStorage.getItem('searchQuery');
+    const savedSortOption = localStorage.getItem('sortOption');
+    const savedUsers = localStorage.getItem('users');
+
+    // Debug statements
+    console.log('Current Page:', savedPage);
+    console.log('Search Query:', savedQuery);
+    console.log('Sort Option:', savedSortOption);
+
+    if (savedPage) setCurrentPage(parseInt(savedPage));
+    if (savedQuery) setSearchQuery(savedQuery);
+    if (savedSortOption) setSortOption(savedSortOption);
+    if (savedUsers) {
+      const parsedUsers = JSON.parse(savedUsers);
+      setUsers(parsedUsers);
+      setFilteredUsers(parsedUsers);
+      setTotalPages(Math.ceil(parsedUsers.length / ITEMS_PER_PAGE));
+      setLoading(false);
+    }
+    // Debug statements
+    console.log('Current Page:', filteredUsers);
+    console.log('Search Query:', searchQuery);
+    console.log('Sort Option:', sortOption);
+
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('currentPage', currentPage.toString());
+    localStorage.setItem('searchQuery', searchQuery);
+    localStorage.setItem('sortOption', sortOption);
+
+    // Debug statements
+    console.log('Current Page:', currentPage);
+    console.log('Search Query:', searchQuery);
+    console.log('Sort Option:', sortOption);
+  }, [currentPage, searchQuery, sortOption]);
+
+  // Fetch users on component mount or load from localStorage
   useEffect(() => {
     const getUsers = async () => {
-      try {
-        const userData = await fetchUsers();
-        setUsers(userData);
-        setCurrentPage(1);
-        setFilteredUsers(userData); // Initialize filtered users with full list
-        setTotalPages(Math.ceil(userData.length / ITEMS_PER_PAGE));
-      } catch (error) {
-        setError('Failed to load user data');
-      } finally {
+      const cachedUsers = localStorage.getItem('users');
+      if (cachedUsers) {
+        const parsedUsers = JSON.parse(cachedUsers);
+        setUsers(parsedUsers);
+        setFilteredUsers(parsedUsers); 
+        setTotalPages(Math.ceil(parsedUsers.length / ITEMS_PER_PAGE));
         setLoading(false);
+      } else {
+        try {
+          const userData = await fetchUsers();
+          setUsers(userData);
+          setFilteredUsers(userData);
+          setTotalPages(Math.ceil(userData.length / ITEMS_PER_PAGE));
+          localStorage.setItem('users', JSON.stringify(userData)); // Store users in localStorage
+        } catch (error) {
+          setError('Failed to load user data');
+        } finally {
+          setLoading(false);
+        }
       }
     };
 
     getUsers();
   }, []);
 
-  // Load state from localStorage when the component mounts
+  // Update URL query params when state changes
   useEffect(() => {
-    const savedPage = parseInt(localStorage.getItem('currentPage') || '1', 10);
-    const savedSearchQuery = localStorage.getItem('searchQuery') || '';
-    const savedSortOption = localStorage.getItem('sortOption') || '';
-
-    setCurrentPage(savedPage);
-    setSearchQuery(savedSearchQuery);
-    setSortOption(savedSortOption);
-    console.log(`saved ${savedSortOption}`);
-    console.log(`saved ${savedSearchQuery}`);
-  }, []);
+    const url = new URL(window.location.href);
+    url.pathname = '/'; 
+    url.searchParams.set('page', currentPage.toString());
+    url.searchParams.set('searchQuery', searchQuery);
+    url.searchParams.set('sortOption', sortOption);
+    router.push(url.toString());
+  }, [currentPage, searchQuery, sortOption]);
 
   // Apply search query to filter the list of users
   useEffect(() => {
     if (!searchQuery) {
       setFilteredUsers(users);
       setTotalPages(Math.ceil(users.length / ITEMS_PER_PAGE));
+      localStorage.setItem('filteredUsers', JSON.stringify(users)); // Store the filtered result
       return;
     }
 
@@ -74,12 +123,14 @@ const Profiles: React.FC = () => {
     setFilteredUsers(filtered);
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
     setCurrentPage(1); 
-    localStorage.setItem('searchQuery', searchQuery); // Save search query to localStorage
+    localStorage.setItem('filteredUsers', JSON.stringify(filtered)); // Store filtered users in localStorage
+
+    // Debug statement
+    console.log('Filtered Users Count:', filtered.length);
   }, [searchQuery, users]);
 
   // Apply sorting
   useEffect(() => {
-    console.log(`in sort ${sortOption}`);
     let sortedUsers = [...filteredUsers];
     switch (sortOption) {
       case 'nameAsc':
@@ -116,34 +167,47 @@ const Profiles: React.FC = () => {
         break;
     }
     setFilteredUsers(sortedUsers);
-    localStorage.setItem('sortOption', sortOption); // Save sort option to localStorage
+    localStorage.setItem('filteredUsers', JSON.stringify(sortedUsers)); // Store sorted users in localStorage
+
+    // Debug statement
+    console.log('Sort Option:', sortOption);
   }, [sortOption]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    localStorage.setItem('currentPage', page.toString()); // Save current page to localStorage
+    // Debug statement
+    console.log('Page Changed:', page);
   };
 
   const handleSort = (option: string) => {
     setSortOption(option);
+    // Debug statement
+    console.log('Sort Option Changed:', option);
   };
 
-    // Refresh button handler
-    const handleRefresh = () => {
-      setFilteredUsers(users);
-      setSortOption('');
-      setSearchQuery('');
-      setCurrentPage(1);
-      localStorage.removeItem('searchQuery');
-      localStorage.removeItem('sortOption');
-    };
+  // Refresh button handler
+  const handleRefresh = () => {
+    setFilteredUsers(users);
+    setSortOption('nameAsc');
+    setSearchQuery('');
+    setCurrentPage(1);
+    const url = new URL(window.location.href);
+    url.pathname = '/'; 
+    url.searchParams.set('page', '1');
+    url.searchParams.set('searchQuery', '');
+    url.searchParams.set('sortOption', 'nameAsc');
+    router.push(url.toString());
+    localStorage.removeItem('filteredUsers'); // Clear the stored data on refresh
+  };
 
-    const handleRowsPerPageChange = (rows: number) => {
-      setRowsPerPage(rows);
-      setTotalPages(Math.ceil(filteredUsers.length / rows));
-    };
+  const handleRowsPerPageChange = (rows: number) => {
+    setRowsPerPage(rows);
+    setTotalPages(Math.ceil(filteredUsers.length / rows));
+    // Debug statement
+    console.log('Rows Per Page Changed:', rows);
+  };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading visible={true} />;
   if (error) return <p>{error}</p>;
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -153,10 +217,10 @@ const Profiles: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.actions}>
         <SearchBar onSearch={setSearchQuery} />
-        <SortDropdown onSort={handleSort} selectedSortOption={sortOption} /> 
+        <SortDropdown onSort={handleSort} selectedSortOption={sortOption} />
         <button className={styles.refreshButton} onClick={handleRefresh}>
-        <FontAwesomeIcon icon={faRefresh} className={styles.icon}/>
-          </button>
+          <FontAwesomeIcon icon={faRefresh} className={styles.icon}/>
+        </button>
       </div>
       <div className={styles.grid}>
         {currentUsers.map((user) => (
@@ -176,6 +240,6 @@ const Profiles: React.FC = () => {
       />
     </div>
   );
-};
+});
 
 export default Profiles;

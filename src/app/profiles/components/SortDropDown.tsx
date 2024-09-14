@@ -9,7 +9,7 @@ interface SortDropdownProps {
   selectedSortOption: string;
 }
 
-const SortDropdown: React.FC<SortDropdownProps> = ({ onSort, selectedSortOption }) => {
+const SortDropdown: React.FC<SortDropdownProps> = React.memo(({ onSort, selectedSortOption }) => {
   const [selectedKeys, setSelectedKeys] = React.useState<Set<string>>(new Set([selectedSortOption]));
 
   const selectedValue = React.useMemo(
@@ -75,6 +75,6 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ onSort, selectedSortOption 
       </DropdownMenu>
     </Dropdown>
   );
-};
+});
 
 export default SortDropdown;

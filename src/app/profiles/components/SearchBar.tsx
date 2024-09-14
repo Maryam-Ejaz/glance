@@ -7,7 +7,7 @@ interface SearchBarProps {
   onSearch: (query: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = React.memo(({ onSearch }) => {
   const [active, setActive] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -61,6 +61,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       {/* <span className={styles.close} onClick={handleSearchToggle}></span> */}
     </div>
   );
-};
+});
 
 export default SearchBar;

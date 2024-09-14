@@ -1,0 +1,80 @@
+.container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.searchButton, 
+.sortButton, 
+.refreshButton {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: #1e1e1e;
+}
+
+.searchButton:hover, 
+.sortButton:hover, 
+.refreshButton:hover {
+  background-color: #575757;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/* Skeleton styles for the cards */
+.card {
+  position: relative;
+  background: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #eceff1;
+  background-color: #2b2b2b;
+  border: 1px solid #eceff133;
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 16px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonCircle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 auto;
+}
+
+.skeletonLine {
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.short {
+  width: 40%;
+  margin: 0 auto;
+}
+
+.medium {
+  width: 60%;
+}
+
+.full {
+  width: 100%;
+}

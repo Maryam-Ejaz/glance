@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import {Jost} from "next/font/google";
 import "./globals.css";
-import Header from "./header";
 
 const jost = Jost({ 
   weight: ['300','500'],
@@ -23,7 +22,6 @@ export default function RootLayout({
       <body
         className={`${jost.className}`}
       >
-        {/* <Header/> */}
         {children}
       </body>
     </html>

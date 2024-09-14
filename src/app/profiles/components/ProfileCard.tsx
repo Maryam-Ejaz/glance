@@ -41,7 +41,7 @@ interface ProfileCardProps {
   };
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
+const ProfileCard: React.FC<ProfileCardProps> = React.memo(({ user }) => {
 
   const boxWrapper = useRef(null)
   const [isHovered, setIsHovered] = useState(false)
@@ -139,6 +139,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
     </div>
 
   );
-};
+});
 
 export default ProfileCard;

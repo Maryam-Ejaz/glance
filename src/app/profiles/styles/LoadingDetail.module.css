@@ -1,0 +1,78 @@
+.skeletonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    padding: 20px;
+    background-color: rgba(51, 51, 51, 0.8);
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 600px) {
+    .skeletonContainer {
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        transform: translate(-50%, 0); /* Place at the bottom center on mobile */
+    }
+}
+
+.skeletonProfile,
+.skeletonName,
+.skeletonTab,
+.skeletonText {
+    background-color: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeletonProfile {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.skeletonName {
+    width: 60%;
+    height: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.skeletonTab {
+    width: 80%;
+    height: 30px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.skeletonText {
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
+}
+
+/* Shine animation */
+@keyframes shine {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: 200px 0;
+    }
+}
+
+.skeletonProfile,
+.skeletonName,
+.skeletonTab,
+.skeletonText {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 75%);
+    background-size: 200px 100%;
+    animation: shine 1.2s ease-in-out infinite;
+}
