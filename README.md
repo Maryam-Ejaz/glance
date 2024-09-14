@@ -4,6 +4,10 @@
 
 This application fetches user data from [randomuser.me](https://randomuser.me) and displays it in both list and tabular views. It also provides a detailed view for each profile, using Next.js with TypeScript and styled with CSS modules.
 
+## Deployment
+
+- [Live Deployment](https://your-deployment-link.com)
+
 ## File Structure
 
 ```plaintext
@@ -93,3 +97,15 @@ src/
 - **Dependency Issues**: Check for compatibility of your Node.js version with the project requirements if `npm install` fails.
 
 For additional help, refer to the [Next.js documentation](https://nextjs.org/docs) or the [randomuser.me API documentation](https://randomuser.me/documentation).
+
+## Screenshots
+
+### List View Page
+![List View Page](https://github.com/Mariyam-Ejaz/glance/blob/main/ListView.png?raw=true)
+
+### Table View Page
+![Table View Page](https://github.com/Mariyam-Ejaz/glance/blob/main/TableView.png?raw=true)
+
+### Profile Detail View Page
+![Profile Detail View Page](https://github.com/Mariyam-Ejaz/glance/blob/main/Detail.png?raw=true)
+
