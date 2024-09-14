@@ -1,7 +1,7 @@
-"use client"; 
+"use client";
 import React from "react";
 import styles from '../styles/Loading.module.css';
-import LoadingSkeleton from './loadingDetail'; 
+import LoadingSkeleton from './loadingDetail';
 
 interface LoadingProps {
   visible: boolean;

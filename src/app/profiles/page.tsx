@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation'; 
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Pagination } from '@nextui-org/pagination';
 import { fetchUsers } from '../../services/userService';
 import ProfileCard from './components/ProfileCard';
@@ -74,7 +74,7 @@ const Profiles: React.FC = React.memo(() => {
       if (cachedUsers) {
         const parsedUsers = JSON.parse(cachedUsers);
         setUsers(parsedUsers);
-        setFilteredUsers(parsedUsers); 
+        setFilteredUsers(parsedUsers);
         setTotalPages(Math.ceil(parsedUsers.length / ITEMS_PER_PAGE));
         setLoading(false);
       } else {
@@ -98,7 +98,7 @@ const Profiles: React.FC = React.memo(() => {
   // Update URL query params when state changes
   useEffect(() => {
     const url = new URL(window.location.href);
-    url.pathname = '/'; 
+    url.pathname = '/';
     url.searchParams.set('page', currentPage.toString());
     url.searchParams.set('searchQuery', searchQuery);
     url.searchParams.set('sortOption', sortOption);
@@ -122,7 +122,7 @@ const Profiles: React.FC = React.memo(() => {
     );
     setFilteredUsers(filtered);
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
-    setCurrentPage(1); 
+    setCurrentPage(1);
     localStorage.setItem('filteredUsers', JSON.stringify(filtered)); // Store filtered users in localStorage
 
     // Debug statement
@@ -192,7 +192,7 @@ const Profiles: React.FC = React.memo(() => {
     setSearchQuery('');
     setCurrentPage(1);
     const url = new URL(window.location.href);
-    url.pathname = '/'; 
+    url.pathname = '/';
     url.searchParams.set('page', '1');
     url.searchParams.set('searchQuery', '');
     url.searchParams.set('sortOption', 'nameAsc');
@@ -219,7 +219,7 @@ const Profiles: React.FC = React.memo(() => {
         <SearchBar onSearch={setSearchQuery} />
         <SortDropdown onSort={handleSort} selectedSortOption={sortOption} />
         <button className={styles.refreshButton} onClick={handleRefresh}>
-          <FontAwesomeIcon icon={faRefresh} className={styles.icon}/>
+          <FontAwesomeIcon icon={faRefresh} className={styles.icon} />
         </button>
       </div>
       <div className={styles.grid}>

@@ -22,12 +22,11 @@ export const fetchUsers = async (): Promise<any[]> => {
 
 export const fetchUserById = async (id: string) => {
   try {
-    // Ensure users are fetched
     const users = await fetchUsers();
 
     // Search for the user by UUID
     const user = users.find((user) => user.login.uuid === id);
-    
+
     if (user) {
       return user;
     } else {

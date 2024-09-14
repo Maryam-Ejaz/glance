@@ -6,7 +6,7 @@ import styles from '../styles/UserProfile.module.css';
 import TabMenu from '../components/TabMenu';
 import { MapProvider } from '../providers/MapProvider';
 import { MapComponent } from '../components/Map';
-import "/node_modules/flag-icons/css/flag-icons.min.css"; 
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 import Loading from '../loading';
 
 interface UserProfileProps {
@@ -46,7 +46,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
     if (loading) return <Loading visible={false} />;
     if (error) return <p>{error}</p>;
 
-    const countryCode = user?.nat?.toLowerCase(); 
+    const countryCode = user?.nat?.toLowerCase();
 
     const tabContents = [
         <div key="personal-info">

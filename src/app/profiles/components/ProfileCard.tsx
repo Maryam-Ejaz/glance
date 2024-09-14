@@ -93,13 +93,13 @@ const ProfileCard: React.FC<ProfileCardProps> = React.memo(({ user }) => {
           <div
             className="pointer-events-none absolute opacity-0 z-50 rounded-xl w-full h-full group-hover:opacity-100  transition duration-300 "
             style={{
-          //     background: `
-          //   radial-gradient(
-          //     250px circle at ${overlayColor.x}px ${overlayColor.y}px,
-          //     rgba(255, 255, 255, 0.137),
-          //     transparent 100%
-          //   )
-          // `,
+              //     background: `
+              //   radial-gradient(
+              //     250px circle at ${overlayColor.x}px ${overlayColor.y}px,
+              //     rgba(255, 255, 255, 0.137),
+              //     transparent 100%
+              //   )
+              // `,
             }}
           />
         )}

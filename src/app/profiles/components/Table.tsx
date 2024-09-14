@@ -25,8 +25,8 @@ import { useRouter } from 'next/navigation';
 import { VerticalDotsIcon } from "../icons/VerticalDotsIcon";
 import { ChevronDownIcon } from "../icons/ChevronDownIcon";
 import { SearchIcon } from "../icons/SearchIcon";
-import {columns, users, statusOptions} from "../data/TableData";
-import {capitalize} from "../utils/utils";
+import { columns, users, statusOptions } from "../data/TableData";
+import { capitalize } from "../utils/utils";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   male: "primary",
@@ -84,7 +84,7 @@ export default function DemoTable() {
 
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
-  
+
 
   // Load state from local storage
   React.useEffect(() => {
@@ -117,23 +117,23 @@ export default function DemoTable() {
     localStorage.setItem('demoTableState', JSON.stringify(state));
   }, [filterValue, selectedKeys, visibleColumns, statusFilter, rowsPerPage, sortDescriptor, page]);
 
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleClick = (uuid: string) => {
     // Navigate to the user detail page with the user's UUID
     router.push(`/profiles/${uuid}`);
   };
-  
+
 
   // Perform Sorting of Columns
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a: User, b: User) => {
       const column = sortDescriptor?.column ?? '';
-  
+
       // Get field values for both 'a' and 'b' based on the column
       let first: any;
       let second: any;
-  
+
       switch (column) {
         case "name":
           // Extract the full name for comparison
@@ -159,13 +159,13 @@ export default function DemoTable() {
           // For other fields, fallback to comparing directly from the field
           first = a[column as keyof User];
           second = b[column as keyof User];
-  
+
           // Ensure comparison for strings is case-insensitive
           if (typeof first === "string") first = first.toLowerCase();
           if (typeof second === "string") second = second.toLowerCase();
           break;
       }
-  
+
       // Perform the comparison
       if (typeof first === "number" && typeof second === "number") {
         // Numeric comparison
@@ -176,17 +176,17 @@ export default function DemoTable() {
           ? second.localeCompare(first)
           : first.localeCompare(second);
       }
-  
+
       // Default to no sorting if types do not match
       return 0;
     });
   }, [sortDescriptor, items]);
-  
+
   const renderCell = React.useCallback((user: User, columnKey: React.Key): React.ReactNode => {
 
-    
+
     const cellValue = user[columnKey as keyof User];
-  
+
     switch (columnKey) {
       case "name":
         return (
@@ -204,25 +204,25 @@ export default function DemoTable() {
             <p className="text-bold text-small capitalize">{user.location.country}</p>
           </div>
         );
-        case "ssn":
+      case "ssn":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{user.id.value}</p>
           </div>
         );
-        case "timezone":
+      case "timezone":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{user.location.timezone.offset}</p>
           </div>
         );
-        case "id":
+      case "id":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{user.login.uuid}</p>
           </div>
         );
-        case "city":
+      case "city":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{user.location.city}</p>
@@ -263,7 +263,7 @@ export default function DemoTable() {
           : JSON.stringify(cellValue); // Convert objects to a JSON string for display
     }
   }, []);
-  
+
 
   const onNextPage = React.useCallback(() => {
     if (page < pages) {
@@ -291,10 +291,10 @@ export default function DemoTable() {
     }
   }, []);
 
-  const onClear = React.useCallback(()=>{
+  const onClear = React.useCallback(() => {
     setFilterValue("")
     setPage(1)
-  },[])
+  }, [])
 
   const topContent = React.useMemo(() => {
     return (
@@ -304,7 +304,7 @@ export default function DemoTable() {
             isClearable
             className="w-full sm:max-w-[44%]"
             placeholder="Search"
-            startContent={<SearchIcon className=" mr-[10px]"/>}
+            startContent={<SearchIcon className=" mr-[10px]" />}
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
@@ -412,7 +412,7 @@ export default function DemoTable() {
 
   return (
     <Table
-    color="secondary"
+      color="secondary"
       aria-label="Table"
       isHeaderSticky
       bottomContent={bottomContent}

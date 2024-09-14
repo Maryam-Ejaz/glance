@@ -58,7 +58,6 @@ const SearchBar: React.FC<SearchBarProps> = React.memo(({ onSearch }) => {
           <span></span>
         </button>
       </div>
-      {/* <span className={styles.close} onClick={handleSearchToggle}></span> */}
     </div>
   );
 });

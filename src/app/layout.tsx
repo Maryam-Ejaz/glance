@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import {Jost} from "next/font/google";
+import { Jost } from "next/font/google";
 import "./globals.css";
 
-const jost = Jost({ 
-  weight: ['300','500'],
-  subsets: ['latin'] })
+const jost = Jost({
+  weight: ['300', '500'],
+  subsets: ['latin']
+})
 
 
 export const metadata: Metadata = {
